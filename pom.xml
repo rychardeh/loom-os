@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.hp.hpl.loom</groupId>
+	<artifactId>loom-os</artifactId>
+	<version>1.2</version>
+	<name>Loom Openstack Integration</name>
+	<description>Example integration with Openstack instance</description>
+	<packaging>pom</packaging>
+	<properties>
+		<loom-version>3.11-SNAPSHOT</loom-version>
+		<weaver-version>3.11-SNAPSHOT</weaver-version>
+		<jetty.version>9.3.6.v20151106</jetty.version>
+
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
+		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<maven-dependency-plugin.version>2.3</maven-dependency-plugin.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hp.hpl.loom</groupId>
+			<artifactId>weaver</artifactId>
+			<version>${weaver-version}</version>
+			<type>war</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.hp.hpl.loom</groupId>
+			<artifactId>loom-server</artifactId>
+			<version>${loom-version}</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>weaver-${loom-version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>${maven-clean-plugin.version}</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>adapters</directory>
+							<includes>
+								<include>*.jar</include>
+							</includes>
+						</fileset>
+						<fileset>
+							<directory>adapters/lib</directory>
+							<includes>
+								<include>*.jar</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven-dependency-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>copy-war-to-lib-folder</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<!-- Loom server -->
+								<artifactItem>
+									<groupId>com.hp.hpl.loom</groupId>
+									<artifactId>loom-server</artifactId>
+									<version>${loom-version}</version>
+									<type>war</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>target</outputDirectory>
+									<destFileName>loom-server-${loom-version}.war</destFileName>
+									<destFileName>loom-server.war</destFileName>
+								</artifactItem>
+
+								<!-- Loom Weaver UI -->
+								<artifactItem>
+									<groupId>com.hp.hpl.loom</groupId>
+									<artifactId>weaver</artifactId>
+									<version>${weaver-version}</version>
+									<type>war</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>target</outputDirectory>
+									<destFileName>weaver.war</destFileName>
+								</artifactItem>
+
+								<!-- File adapters - This is just a simple test adapter and shows 
+									how to configure the project to pull more than one adapter -->
+								<artifactItem>
+									<groupId>com.hp.hpl.loom</groupId>
+									<artifactId>os-adapter</artifactId>
+									<version>${loom-version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>adapters</outputDirectory>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>com.hp.hpl.loom</groupId>
+									<artifactId>loom-openstack</artifactId>
+									<version>${loom-version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>adapters/lib</outputDirectory>
+								</artifactItem>
+
+								<!-- Jetty Runner for convenience -->
+								<artifactItem>
+									<groupId>org.eclipse.jetty</groupId>
+									<artifactId>jetty-runner</artifactId>
+									<version>${jetty.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>target</outputDirectory>
+									<destFileName>jetty-runner.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
