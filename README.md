@@ -1,7 +1,7 @@
 # loom-os
 Loom with pre-installed OpenStack adapter
 
-This project is configured to include the version of Loom specified in `pom.xml` and the required versions of the adapter(s) which will be placed in the `./adapters` folder.  Assumes artifacts are available locally.  See [github repo](https://github.com/HewlettPackard/loom) for more details on Loom.
+This project is configured to include the version of Loom specified in `pom.xml` and the required versions of the adapter(s) which will be placed in the `./adapters` folder.  Assumes artifacts are available locally.  See the [Loom github repo](https://github.com/HewlettPackard/loom) for more details on Loom.
 
 ## Building 
 Install Java 1.8 - note: OpenJDK has been tested but not used in production 
