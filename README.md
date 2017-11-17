@@ -1,7 +1,7 @@
 # loom-os
 Loom with pre-installed OpenStack adapter
 
-This project is configured to pull down the version of Loom specified in `pom.xml` and the required versions of the adapter(s) which will be placed in the `./adapters` folder.
+This project is configured to include the version of Loom specified in `pom.xml` and the required versions of the adapter(s) which will be placed in the `./adapters` folder.  Assumes artifacts are available locally.
 
 ## Building 
 Install Java 1.8 - note: OpenJDK has been tested but not used in production 
